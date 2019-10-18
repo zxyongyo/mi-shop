@@ -47,6 +47,16 @@ export default new Router({
       path: '/mine',
       name: 'mine',
       component: resolve => require(['@/views/mine'], resolve)
+    },
+    {
+      path: '/search',
+      name: 'search',
+      component: resolve => require(['@/views/search'], resolve)
+    },
+    {
+      path: '/detail/:id',
+      name: 'detail',
+      component: resolve => require(['@/views/detail'], resolve)
     }
   ]
 })
