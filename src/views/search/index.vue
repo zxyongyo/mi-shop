@@ -64,7 +64,7 @@ export default {
   },
   mounted() {
     this.axios.get("./server/lib.json").then(res => {
-      console.log(res);
+      // console.log(res);
       this.resout = res.data.resout;
     });
   },
