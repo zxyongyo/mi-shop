@@ -1,6 +1,5 @@
 <template>
   <div class="app-init detail-page">
-
     <div class="app-init scroll-box footer-hack">
       <div class="banner">
         <swiper :list="info.banner"></swiper>
@@ -9,12 +8,12 @@
 
       <div class="content">
         <div class="hot">
-          <img :src="info.hot" @click="$router.openPage(info.hotLink)" alt="">
+          <img :src="info.hot" @click="$router.openPage(info.hotLink)" alt />
         </div>
         <div class="title-box">
           <h3>{{ info.title }}</h3>
           <p style="color:#ff4a00">{{ info.bigContent }}</p>
-          <p style="color: #757575"> {{ info.smallContent }} </p>
+          <p style="color: #757575">{{ info.smallContent }}</p>
 
           <div class="press">
             <span class="money" v-if="info.money">￥{{ info.money }}</span>
@@ -41,60 +40,130 @@
         </div>
 
         <div class="p-box">
-          <img v-for="(target, index) in info.pBox" :key="index" v-lazy="target" alt="">
+          <img v-for="(target, index) in info.pBox" :key="index" v-lazy="target" alt />
         </div>
+      </div>
+    </div>
 
+    <div class="detail-footer">
+      <div class="left-box fl">
+        <div class="item" @click="$router.openPage('/')">
+          <p>
+            <span class="iconfont icon-shouye"></span>
+          </p>
+          <p class="name">首页</p>
+        </div>
+        <div class="item cursom-shopcar" @click="$router.openPage('/shoppingcart')">
+          <p>
+            <span class="iconfont icon-gouwuche"></span>
+          </p>
+          <p class="name">购物车</p>
+
+          <span
+            class="num"
+            v-show="getShopCarLength > 0"
+            :class="{ 'full': parseInt(getShopCarLength) >= 99 }"
+          >{{ parseInt(getShopCarLength) >= 99 ? '99+' : getShopCarLength }}</span>
+        </div>
+      </div>
+      <div class="right-box shop-car fl" @click="addShopCar">
+        加入购物车
+        <span class="bool bool-animate" ref="bool"></span>
       </div>
     </div>
 
     <div class="loading-box" :class="{ 'active' : loaded }" v-show="hide">
-
       <span class="load-ani iconfont icon-jiazai"></span>
-
     </div>
-  </div>  
+  </div>
 </template>
 
 <script>
-  import swiper from '../../components/swiper'
+import swiper from "../../components/swiper";
+// import Parabola from "../../util/parabola/index";
+import { mapGetters } from "vuex";
+import ShopCarTool from "../../util/shop-car-tool";
 
 export default {
-  name: 'detail',
+  name: "detail",
   data() {
     return {
       info: {},
       loaded: false,
       hide: true
-    }
+    };
   },
   watch: {
-    $router (){
-      this.getdata()
+    $router() {
+      this.getdata();
     }
+  },
+  computed: {
+    ...mapGetters(["getShopCarLength"])
   },
   methods: {
-    getData (){
-      this.loaded = false
-      this.hide = true
+    getData() {
+      this.loaded = false;
+      this.hide = true;
 
       // console.log(this.$router)
-      var id = this.$router.currentRoute.params.id
-      this.axios.get('/server/'+id+'.json').then( res =>{
-        this.info = res.data
-        this.loaded = true
+      var id = this.$router.currentRoute.params.id;
+      this.axios.get("/server/" + id + ".json").then(res => {
+        this.info = res.data;
+        this.loaded = true;
         setTimeout(() => {
-          this.hide = false
+          this.hide = false;
         }, 1000);
-      })
+      });
+    },
+    /**
+     * ----------------------------------------------------------------------------------------------------------------
+     */
+    addShopCar() {
+      // var root = this;
+      // var width =
+      //   document.documentElement.clientWidth || document.body.clientWidth;
+      // root.$refs.bool.style.display = "block";
+
+      // var parabola = new Parabola({
+      //   startPos: {
+      //     left: root.$refs.bool.offsetLeft,
+      //     top: root.$refs.bool.offsetTop
+      //   },
+      //   endPos: {
+      //     left: root.$refs.bool.offsetLeft - (4.1 * width) / 10,
+      //     top: root.$refs.bool.offsetTop
+      //   },
+      //   duration: 300,
+      //   onStep(pos) {
+      //     var position =
+      //       "translate3d(" +
+      //       (pos.left - root.$refs.bool.offsetLeft) +
+      //       "px," +
+      //       (pos.top - root.$refs.bool.offsetTop) +
+      //       "px, 0px)";
+
+      //     root.$refs.bool.style.webKitTransform = position;
+      //     root.$refs.bool.style.transform = position;
+      //   },
+      //   onFinish() {
+      //     root.$refs.bool.style.display = "none";
+      //     root.shopCar.add(root.info);
+      //   }
+      // });
+
+      // parabola.start();
+      this.shopCar.add(this.info)
     }
   },
-  mounted (){
-    this.getData()
+  mounted() {
+    this.shopCar = new ShopCarTool(this.$store);
+    this.getData();
   },
   components: {
     swiper
   }
-}
+};
 </script>
 
 <style type="text/sass" lang="sass">
