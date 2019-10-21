@@ -57,6 +57,11 @@ export default new Router({
       path: '/detail/:id',
       name: 'detail',
       component: resolve => require(['@/views/detail'], resolve)
+    },
+    {
+      path: '/pay',
+      name: 'pay',
+      component: resolve => require(['@/views/pay'], resolve)
     }
   ]
 })
