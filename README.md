@@ -1,5 +1,5 @@
 # xiaomi
-
+vue.js 开发的仿小米商城
 ## Project setup
 ```
 npm install

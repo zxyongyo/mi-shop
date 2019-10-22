@@ -1,6 +1,3 @@
-/**
- * Created by HP on 2018/1/4.
- */
 
 class Rem{
   constructor(){
