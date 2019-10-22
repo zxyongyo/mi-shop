@@ -1,6 +1,3 @@
-/**
- * Created by HP on 2018/1/21.
- */
 
 import VueDB from '../../util/vue-db/vue-db-long'
 

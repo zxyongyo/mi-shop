@@ -561,9 +561,6 @@ export default {
       }, 10);
     }
   },
-  /**
-   * ----------------------------------------------------------------------------------------------------------------------
-   */
   mounted() {
     var scrollDB = {
       left: DB.getItemOnce("classification-left-scrollTop").toNumber(),
